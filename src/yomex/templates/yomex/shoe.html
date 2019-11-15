@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="product"> 
+            <div class="container">
+                <div class="product-top">
+                    <div class="product-one">
+                        {% for shoe  in shoes %}
+                        <div class="col-md-3 product-left">
+                                <div class="product-main simpleCart_shelfItem">
+                                    <a href="{{ shoe.get_absolute_url }}" class="mask"><img class="img-responsive zoom-img" src="{{ shoe.image.url }}" alt="" /></a>
+                                    <div class="product-bottom">
+                                        <h3>Smart Watches:{{ shoe.name }}</h3>
+                                        <p>Explore Now</p>
+                                        <h4><span class=" item_price"><span>&#8358;</span>{{ shoe.price }}</span></h4>
+                                    </div>
+                                    <div class="srch">
+                                        <span>-{{ shoe.discount }}%</span>
+                                    </div>
+                                </div>
+                        </div>
+                        
+                        {% endfor %}
+                        <div class="clearfix"></div>
+                    </div>		
+                </div>
+            </div>
+    </div> 
+{% endblock %}
