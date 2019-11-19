@@ -6,19 +6,6 @@ from django.views.generic.list import ListView
 from yomex.models import WristWatch,Perfume,Shoes,Glass
 
 
-def get_queryset(query=None):
-	queryset = []
-	queries = query.split(" ")
-	for q in queries:
-		wrist = WristWatch.objects.filter(
-			Q(name__icontains=q) |
-			Q(description__icontains=q) 
-			).distinct()
-		for watch in wrist:
-			queryset.append(watch)
-	return list(set(queryset))
-
-
 
 def home_view(request):
     context={}
@@ -36,8 +23,8 @@ def home_view(request):
 def search_results(request):
     context = {}
     query = request.GET.get('q')
-    wristwatch = WristWatch.objects.filter(Q(name__icontains=query)| Q(description__icontains=query))
-    shoes=Shoes.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    wristwatch = WristWatch.objects.filter(Q(name__icontains=query)| Q(description__icontains=query)).distinct()
+    shoes=Shoes.objects.filter(Q(name__icontains=query) | Q(description__icontains=query)).distinct()
     queryset=list(chain(wristwatch,shoes))
     context['query'] = query
     context['queryset'] =  queryset

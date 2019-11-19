@@ -1,11 +1,15 @@
+import sys
 from django.db import models
 from django.db.models import Q
 from django.utils.text import slugify
 from .utils import unique_slug_generator
 from django.urls import reverse
 from django.conf import settings
+from io import BytesIO
 from django.db.models.signals import post_delete,pre_save
 from django.dispatch import receiver
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from PIL import Image
 
 
 
@@ -14,6 +18,8 @@ def upload_location(instance, filename):
 	file_path = 'yomex/{name}-{filename}'.format(
 				name=str(instance.name), filename=filename)
 	return file_path
+
+
 
 
 class YomexStore(models.Model):
@@ -63,7 +69,7 @@ class Shoes(YomexStore):
     def get_absolute_url(self):
        return reverse('yomex:detail_shoe', args=[str(self.slug)])
 
-
+    
 def pre_save_shoe_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance, instance.name,instance.slug)
@@ -106,7 +112,6 @@ def pre_save_glass_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance, instance.name,instance.slug)
 pre_save.connect(pre_save_glass_receiver, sender=Glass)
-
 
 
     

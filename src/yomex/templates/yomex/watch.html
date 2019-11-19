@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load thumbnail %}
 {% load static %}
 {% block content %}
 
@@ -9,8 +10,12 @@
                         {% for watch  in wristwatches %}
                         <div class="col-md-3 product-left">
                                 <div class="product-main simpleCart_shelfItem">
-                                    <!-- <a href="{% url 'yomex:detail_watch' watch.slug %}" class="mask"><img class="img-responsive zoom-img" src="{{ watch.image.url }}" alt="" /></a> -->
-                                    <a href="{{ watch.get_absolute_url }}" class="mask"><img class="img-responsive zoom-img" src="{{ watch.image.url }}" alt="" /></a>
+                                       
+                                    <a href="{{ watch.get_absolute_url }}" class="mask">
+                                         {% thumbnail watch.image "400x400" crop="center" as im %}
+                                        <img class="img-responsive zoom-img" src="{{ im.url }}" width=100%  height="{{ im.height }}"/>
+                                        {% endthumbnail %}
+                                    </a>
                                     <div class="product-bottom">
                                         <h3>Smart Watches:{{ watch.name }}</h3>
                                         <p>Explore Now</p>

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load thumbnail %}
 {% block content %}
 
 
@@ -10,7 +11,12 @@
                         {% for shoe  in shoes %}
                         <div class="col-md-3 product-left">
                                 <div class="product-main simpleCart_shelfItem">
-                                    <a href="{{ shoe.get_absolute_url }}" class="mask"><img class="img-responsive zoom-img" src="{{ shoe.image.url }}" alt="" /></a>
+                                    
+                                    <a href="{{ shoe.get_absolute_url }}" class="mask">
+                                            {% thumbnail shoe.image "400x400" crop="center" as im %}
+                                        <img class="img-responsive zoom-img" src="{{ im.url }}" width=100%  height="{{ im.height }}" />
+                                            {% endthumbnail %}
+                                    </a>
                                     <div class="product-bottom">
                                         <h3>Smart Watches:{{ shoe.name }}</h3>
                                         <p>Explore Now</p>
